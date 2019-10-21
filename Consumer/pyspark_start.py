@@ -14,14 +14,16 @@ spark = SparkSession \
     .getOrCreate()
 
 prices_df = spark \
-  .read \
+  .readStream \
   .format("kafka") \
   .option("kafka.bootstrap.servers", "kafka_cluster:9092") \
   .option("subscribe", "prices-topic") \
   .load()
 
 # send the data on the topic to the console
-prices_df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)") \
-    .write \
+query = prices_df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)") \
+    .writeStream \
     .format("console") \
-    .save()
+    .start()
+
+query.awaitTermination()
