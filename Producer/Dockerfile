@@ -21,7 +21,6 @@ RUN  apt install -y python3.7 && \
 # Install PySpark
 COPY requirements.txt requirements.txt
 COPY producer_start.py app_start.py
-COPY wait-for-it.sh wait-for-it.sh
 RUN \
     pip3 install -r requirements.txt
 
