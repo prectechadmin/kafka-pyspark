@@ -1,0 +1,15 @@
+version: '3'
+services:
+  kafka_cluster:
+    image: "spotify/kafka"
+    ports:
+      - 9092:9092
+      - 2181:2181
+  python_producer:
+    build: Producer
+    depends_on:
+      - kafka_cluster
+  pyspark_consumer:
+    build: Consumer
+    depends_on:
+      - kafka_cluster
