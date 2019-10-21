@@ -23,6 +23,7 @@ prices_df = spark \
 # send the data on the topic to the console
 query = prices_df.selectExpr("CAST(key AS STRING)", "CAST(value AS STRING)") \
     .writeStream \
+    .outputMode("complete") \
     .format("console") \
     .start()
 
